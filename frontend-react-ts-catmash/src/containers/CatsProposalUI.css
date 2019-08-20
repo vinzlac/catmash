@@ -1,0 +1,6 @@
+.cats-proposal__choice {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin: 1rem 0;
+}

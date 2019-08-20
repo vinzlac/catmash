@@ -1,0 +1,15 @@
+.cat-rankings__catList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-evenly;
+  margin: 1rem 0;
+}
+
+.cat-rankings__catWithVote {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  margin: 1rem 0;
+}
