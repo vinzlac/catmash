@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +23,7 @@ public class Cat {
 
 	String url;
 
-	@OneToMany(mappedBy = "cat", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cat", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	Set<VoteEvent> voteEvents = new HashSet<>();
 
 	public void add(VoteEvent voteEvent) {

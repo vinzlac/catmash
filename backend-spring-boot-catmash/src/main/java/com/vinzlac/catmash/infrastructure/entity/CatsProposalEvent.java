@@ -19,7 +19,7 @@ public class CatsProposalEvent {
 	@Id
 	private String uuid;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Cat> cats;
 
 	@OneToOne
