@@ -1,4 +1,4 @@
-package com.vinzlac.catmash.web.service;
+package com.vinzlac.catmash.domain.service;
 
 import com.vinzlac.catmash.infrastructure.entity.Cat;
 import com.vinzlac.catmash.infrastructure.entity.CatsProposalEvent;
@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -31,17 +30,16 @@ public class VoteService {
 
 	private final VoteConverter voteConverter;
 
-	public List<CatWithVoteCount> getCatsRankingReverseOrdeyByVoteCount(){
+	public Stream<CatWithVoteCount> getCatsRankingReverseOrdeyByVoteCount(){
 		return getCatsRanking(Comparator.comparingInt(CatWithVoteCount::getVoteCount).reversed());
 	}
 
-	private List<CatWithVoteCount> getCatsRanking(Comparator<CatWithVoteCount> comparator){
+	private Stream<CatWithVoteCount> getCatsRanking(Comparator<CatWithVoteCount> comparator){
 		List<Cat> cats = catService.getCats();
 		return cats
 				.stream()
 				.map(voteConverter::toCatWithVoteCount)
-				.sorted(comparator)
-				.collect(toList());
+				.sorted(comparator);
 	}
 
 	public Vote vote(String catId, CatsProposalRequest catsProposalRequest) {

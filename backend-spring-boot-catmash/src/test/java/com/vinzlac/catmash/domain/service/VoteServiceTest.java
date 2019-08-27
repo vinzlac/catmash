@@ -1,4 +1,4 @@
-package com.vinzlac.catmash.web.service;
+package com.vinzlac.catmash.domain.service;
 
 import com.vinzlac.catmash.infrastructure.entity.Cat;
 import com.vinzlac.catmash.infrastructure.entity.VoteEvent;
@@ -16,6 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -55,13 +56,11 @@ public class VoteServiceTest {
 		Mockito.when(catService.getCats()).thenReturn(Arrays.asList(cat1, cat2));
 
 		// WHEN
-		List<CatWithVoteCount> catsRanking = voteService.getCatsRankingReverseOrdeyByVoteCount();
+		List<CatWithVoteCount> catsRanking = voteService.getCatsRankingReverseOrdeyByVoteCount().collect(Collectors.toList());
 
 		// THEN
 		assertThat(catsRanking).hasSize(2);
 		assertThat(catsRanking.get(0)).isEqualTo(new CatWithVoteCount("catId1", "url1", 1));
 		assertThat(catsRanking.get(1)).isEqualTo(new CatWithVoteCount("catId2", "url2", 0));
-
-
 	}
 }

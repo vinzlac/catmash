@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vinzlac.catmash.web.model.CatsProposalRequest;
 import com.vinzlac.catmash.web.model.CatsProposalResponse;
 import com.vinzlac.catmash.web.rest.CatController;
-import com.vinzlac.catmash.web.service.VoteService;
+import com.vinzlac.catmash.domain.service.VoteService;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;

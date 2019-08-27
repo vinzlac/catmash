@@ -4,12 +4,12 @@ import com.vinzlac.catmash.web.model.CatWithVoteCount;
 import com.vinzlac.catmash.web.model.CatsProposalRequest;
 import com.vinzlac.catmash.web.model.CatsProposalResponse;
 import com.vinzlac.catmash.web.model.Vote;
-import com.vinzlac.catmash.web.service.VoteService;
+import com.vinzlac.catmash.domain.service.VoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @Slf4j
@@ -32,7 +32,7 @@ public class CatController {
 	}
 
 	@GetMapping("/cats/ranking")
-	public List<CatWithVoteCount> catsRankingReverseOrdeyByVoteCount() {
+	public Stream<CatWithVoteCount> catsRankingReverseOrdeyByVoteCount() {
 		log.info("call cats ranking reverse ordey by vote count");
 		return voteService.getCatsRankingReverseOrdeyByVoteCount();
 	}
