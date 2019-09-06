@@ -1,34 +1,46 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import './CatRankingsUI.scss';
-interface CatRanking {
-  id: string;
-  url: string;
-  voteCount: number;
-}
+import { CatRanking } from '../model/CatRanking';
+import { ThunkDispatch } from 'redux-thunk';
+import { fetchCatRankings } from '../store/catRankings/actions';
+import { CatRankingsState } from '../store/catRankings/types';
 
 // tslint:disable-next-line:no-empty-interface
+interface OwnProps {
+}
+
 interface CatRankingProps {
-}
-
-interface CatRankingState {
   catRankings: CatRanking [];
+  error?: Error;
+  pending: boolean;
 }
 
-class CatRankingsUI extends React.Component<CatRankingProps, CatRankingState> {
-  constructor(props: CatRankingProps) {
-    super(props);
+interface DispatchProps {
+  fetchCatRankings: () => void;
+}
 
-    this.state = {
-      catRankings: [],
-    };
+type AllCatsRankingsProps = CatRankingProps & OwnProps & DispatchProps ;
+
+class CatRankingsUI extends React.Component<AllCatsRankingsProps, CatRankingsState> {
+  constructor(props: AllCatsRankingsProps) {
+    super(props);
   }
 
   public componentDidMount() {
-    this.populateWithCatsRanking();
+    this.props.fetchCatRankings();
   }
 
   public render() {
-    const {catRankings} = this.state;
+    const {catRankings, error, pending} = this.props;
+
+    if (error) {
+      return <div>Error! {error.message}</div>;
+    }
+
+    if (pending) {
+      return <div>Loading...</div>;
+    }
 
     return (
       <div>
@@ -44,14 +56,23 @@ class CatRankingsUI extends React.Component<CatRankingProps, CatRankingState> {
       </div>
     );
   }
-
-  private populateWithCatsRanking() {
-    // tslint:disable-next-line:no-console
-    console.log(`populateWithCatsRanking`);
-    fetch('api/cats/ranking')
-      .then(response => response.json())
-      .then(data => this.setState({catRankings: data}));
-  }
 }
 
-export default CatRankingsUI;
+const mapStateToProps = (state: CatRankingsState, ownProps: OwnProps): CatRankingProps => ({
+  catRankings: state.catRankings,
+  error : state.error,
+  pending: state.pending,
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => {
+  return {
+    fetchCatRankings: async () => {
+      await dispatch(fetchCatRankings());
+      // tslint:disable-next-line:no-console
+      console.log('FetchCatRankings completed [UI]');
+    },
+  };
+};
+
+// export default CatRankingsUI;
+export default connect(mapStateToProps, mapDispatchToProps)(CatRankingsUI);
